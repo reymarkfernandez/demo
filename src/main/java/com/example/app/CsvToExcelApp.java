@@ -63,7 +63,7 @@ public class CsvToExcelApp extends Application {
     }
 
     // Method to read the CSV file into a List of String arrays (rows)
-    private List<String[]> readCsv(File csvFile) throws IOException {
+    public List<String[]> readCsv(File csvFile) throws IOException {
         List<String[]> rows = new ArrayList<>();
         try (BufferedReader br = Files.newBufferedReader(csvFile.toPath())) {
             String line;
@@ -77,7 +77,7 @@ public class CsvToExcelApp extends Application {
     }
 
     // Method to convert the CSV data to an Excel file
-    private void convertToExcel(List<String[]> rows, File excelFile) throws IOException {
+    public void convertToExcel(List<String[]> rows, File excelFile) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook(); // Create a new Excel workbook
         Sheet sheet = workbook.createSheet("Sheet1"); // Create a new sheet in the workbook
 

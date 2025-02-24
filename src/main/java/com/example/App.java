@@ -14,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.example.app.CsvToExcelApp;
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -37,16 +38,14 @@ public class App extends Application {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
 
             if (selectedFile != null) {
-                try {
+                try (CSVReader csvReader = new CSVReader(new FileReader(selectedFile))) {
                     // Step 1: Read CSV file
-                    CSVReader csvReader = new CSVReader(new FileReader(selectedFile));
                     List<String[]> csvData = csvReader.readAll();
-                    csvReader.close();
 
                     // Step 2: Export to Excel
                     String excelFilePath = selectedFile.getParent() + File.separator + "exported.xlsx";
                     CsvToExcelApp exporter = new CsvToExcelApp();
-                    exporter.convertToExcel(csvData, excelFilePath); 
+                    exporter.convertToExcel(csvData, new File(excelFilePath));
 
                     // Step 3: Show success alert
                     Alert alert = new Alert(AlertType.INFORMATION);
@@ -54,7 +53,7 @@ public class App extends Application {
                     alert.setHeaderText("CSV Exported to Excel");
                     alert.setContentText("The CSV file has been successfully exported to: " + excelFilePath);
                     alert.showAndWait();
-                } catch (IOException ex) {
+                } catch (IOException | CsvException ex) {
                     // Handle any exceptions
                     Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Error");

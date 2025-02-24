@@ -7,6 +7,7 @@ module com.example.app {
     requires com.opencsv;
 
     opens com.example.app to javafx.fxml;
+    opens com.example to javafx.graphics, javafx.fxml;
     
 
     exports com.example.app;
